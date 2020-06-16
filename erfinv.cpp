@@ -69,7 +69,7 @@ long double erfinv(long double x) {
   const long double F6 = 2.010321207683943062279931e-7L;
   const long double F7 = 2.891024605872965461538222e-15L;
 
-  long double abs_x = abs(x);
+  long double abs_x = std::abs(x);
 
   if (abs_x <= 0.85L) {
     long double r =  0.180625L - 0.25L * x * x;
@@ -78,7 +78,7 @@ long double erfinv(long double x) {
     return x * num / den; 
   }
 
-  long double r = sqrt(LN2 - log(1.0L - abs_x));
+  long double r = std::sqrt(LN2 - std::log(1.0L - abs_x));
 
   long double num, den;
   if (r <= 5.0L) {
