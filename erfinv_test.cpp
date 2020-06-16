@@ -88,7 +88,7 @@ void test_out_of_domain_values() {
 #define ASSERT_ERFINV(table_entry) {              \
   long double x, y, eps;                          \
   tie(x, y, eps) = table_entry;                   \
-  assert(std::abs(erfinv(x) - y) < eps);          \
+  assert(fabsl(erfinv(x) - y) < eps);             \
 }
 
 void test_values_close_to_asymptotes() {
@@ -139,7 +139,7 @@ void test_uniform_samples() {
 #define ASSERT_ERFINV_WITH_NR(table_entry) {      \
   long double x, y, eps;                          \
   tie(x, y, eps) = table_entry;                   \
-  assert(std::abs(erfinv(x, 1) - y) < 0.1 * eps); \
+  assert(fabsl(erfinv(x, 1) - y) < 0.1 * eps);    \
 }
 
 void test_erfinv_with_newton_raphson() {

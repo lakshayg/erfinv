@@ -69,7 +69,7 @@ long double erfinv(long double x) {
   const long double F6 = 2.010321207683943062279931e-7L;
   const long double F7 = 2.891024605872965461538222e-15L;
 
-  long double abs_x = std::abs(x);
+  long double abs_x = std::fabsl(x);
 
   if (abs_x <= 0.85L) {
     long double r =  0.180625L - 0.25L * x * x;
