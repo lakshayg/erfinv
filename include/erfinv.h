@@ -1,9 +1,13 @@
-#include "erfinv.h"
+#pragma once
 
 #include <cmath>
 #include <limits>
 
-long double erfinv(long double x) {
+// Returns a floating point number y such that std::erf(y)
+// is close to x. The current implementation is quite accurate
+// when x is away from +1.0 and -1.0. As x approaches closer
+// to those values, the error in the result increases.
+inline long double erfinv(long double x) {
 
   if (x < -1 || x > 1) {
     return std::numeric_limits<long double>::quiet_NaN();
@@ -98,7 +102,10 @@ long double erfinv(long double x) {
   }
 }
 
-long double erfinv(long double x, int nr_iter) {
+// Refine the result of erfinv by performing Newton-Raphson
+// iteration nr_iter number of times. This method works well
+// when the value of x is away from 1.0 and -1.0
+inline long double erfinv(long double x, int nr_iter) {
   long double k = 0.8862269254527580136490837416706L; // 0.5 * sqrt(pi)
   long double y = erfinv(x);
   while (nr_iter-- > 0) {
