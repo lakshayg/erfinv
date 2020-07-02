@@ -3,7 +3,6 @@
 
 long double erfinv(long double x ) {
 
-//printf("test %d %Lf\n", arg_count, x);
   if (x < -1.0 || x > 1.0) {
     return NAN;
   } else if (x == 1.0) {
@@ -11,23 +10,6 @@ long double erfinv(long double x ) {
   } else if (x == -1.0) {
     return -INFINITY;
   }
-
-//---------------------------------------------------------
-// Refine the result of erfinv by performing Newton-Raphson
-// iteration nr_iter number of times. This method works well
-// when the value of x is away from 1.0 and -1.0
-// long double erfinv_iter(long double x, int nr_iter);
-/*  if(narg==3){
-    int  nr_iter = va_arg(ap, int); 
-    long double k = 0.8862269254527580136490837416706L; // 0.5 * sqrt(pi)
-    long double y = erfinv( x);
-    while (nr_iter-- > 0) {
-      y -= k * (erf(y) - x) / exp(-y * y);
-    }
-    return y;
-  }*/
-//---------------------------------------------------------
-
 
   const long double LN2 = 6.931471805599453094172321214581e-1L;
 
