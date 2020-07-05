@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(erfinv LANGUAGES CXX)
+project(erfinv LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 ## Use Catch2 for unit testing
@@ -16,16 +16,15 @@ add_library(catch INTERFACE)
 target_include_directories(catch INTERFACE ${CMAKE_BINARY_DIR}/external)
 
 ## The erfinv library
-add_library(erfinv INTERFACE)
-target_include_directories(erfinv INTERFACE include/)
+add_library(erfinv erfinv.c)
 
 ## Unit tests
 enable_testing()
 
-add_executable(ppnd_test tests/ppnd_test.cpp)
+add_executable(ppnd_test ppnd_test.cpp)
 target_link_libraries(ppnd_test erfinv catch)
 add_test(ppnd_test ppnd_test)
 
-add_executable(erfinv_test tests/erfinv_test.cpp)
+add_executable(erfinv_test erfinv_test.cpp)
 target_link_libraries(erfinv_test erfinv catch)
 add_test(erfinv_test erfinv_test)

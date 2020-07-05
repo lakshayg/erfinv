@@ -1,20 +1,14 @@
-#pragma once
+#include "erfinv.h"
+#include <math.h>
 
-#include <cmath>
-#include <limits>
-
-// Returns a floating point number y such that std::erf(y)
-// is close to x. The current implementation is quite accurate
-// when x is away from +1.0 and -1.0. As x approaches closer
-// to those values, the error in the result increases.
-inline long double erfinv(long double x) {
+EXTERN_C long double erfinv(long double x) {
 
   if (x < -1 || x > 1) {
-    return std::numeric_limits<long double>::quiet_NaN();
+    return NAN;
   } else if (x == 1.0) {
-    return std::numeric_limits<long double>::infinity();
+    return INFINITY;
   } else if (x == -1.0) {
-    return -std::numeric_limits<long double>::infinity();
+    return -INFINITY;
   }
 
   const long double LN2 = 6.931471805599453094172321214581e-1L;
@@ -73,16 +67,16 @@ inline long double erfinv(long double x) {
   const long double F6 = 2.010321207683943062279931e-7L;
   const long double F7 = 2.891024605872965461538222e-15L;
 
-  long double abs_x = std::fabsl(x);
+  long double abs_x = fabsl(x);
 
   if (abs_x <= 0.85L) {
-    long double r =  0.180625L - 0.25L * x * x;
+    long double r = 0.180625L - 0.25L * x * x;
     long double num = (((((((A7 * r + A6) * r + A5) * r + A4) * r + A3) * r + A2) * r + A1) * r + A0);
     long double den = (((((((B7 * r + B6) * r + B5) * r + B4) * r + B3) * r + B2) * r + B1) * r + B0);
-    return x * num / den; 
+    return x * num / den;
   }
 
-  long double r = std::sqrt(LN2 - std::log(1.0L - abs_x));
+  long double r = sqrtl(LN2 - logl(1.0L - abs_x));
 
   long double num, den;
   if (r <= 5.0L) {
@@ -95,21 +89,14 @@ inline long double erfinv(long double x) {
     den = (((((((F7 * r + F6) * r + F5) * r + F4) * r + F3) * r + F2) * r + F1) * r + F0);
   }
 
-  if (x < 0L) {
-    return -num / den;
-  } else {
-    return num / den;
-  }
+  return copysignl(num / den, x);
 }
 
-// Refine the result of erfinv by performing Newton-Raphson
-// iteration nr_iter number of times. This method works well
-// when the value of x is away from 1.0 and -1.0
-inline long double erfinv(long double x, int nr_iter) {
-  long double k = 0.8862269254527580136490837416706L; // 0.5 * sqrt(pi)
+EXTERN_C long double erfinv_refine(long double x, int nr_iter) {
+  const long double k = 0.8862269254527580136490837416706L; // 0.5 * sqrt(pi)
   long double y = erfinv(x);
   while (nr_iter-- > 0) {
-    y -= k * (std::erf(y) - x) / std::exp(-y * y);
+    y -= k * (erfl(y) - x) / expl(-y * y);
   }
   return y;
 }
