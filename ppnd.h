@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: 2017-2025 Lakshay Garg
+// SPDX-License-Identifier: MIT
+//
+
 #pragma once
 
 #include <cassert>
