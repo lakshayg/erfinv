@@ -26,5 +26,5 @@ target_link_libraries(ppnd_test erfinv catch)
 add_test(ppnd_test ppnd_test)
 
 add_executable(erfinv_test erfinv_test.cpp)
-target_link_libraries(erfinv_test erfinv catch)
+target_link_libraries(erfinv_test erfinv)
 add_test(erfinv_test erfinv_test)
