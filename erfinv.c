@@ -73,25 +73,76 @@ EXTERN_C long double erfinv(long double x) {
   const long double F7 = 2.891024605872965461538222e-15L;
 
   long double abs_x = fabsl(x);
+  long double r = 0.0L;
+  long double num = 0.0L;
+  long double den = 0.0L;
 
   if (abs_x <= 0.85L) {
-    long double r = 0.180625L - 0.25L * x * x;
-    long double num = (((((((A7 * r + A6) * r + A5) * r + A4) * r + A3) * r + A2) * r + A1) * r + A0);
-    long double den = (((((((B7 * r + B6) * r + B5) * r + B4) * r + B3) * r + B2) * r + B1) * r + B0);
+    r = 0.180625L - 0.25L * x * x;
+
+    num = fmal(num, r, A7);
+    num = fmal(num, r, A6);
+    num = fmal(num, r, A5);
+    num = fmal(num, r, A4);
+    num = fmal(num, r, A3);
+    num = fmal(num, r, A2);
+    num = fmal(num, r, A1);
+    num = fmal(num, r, A0);
+
+    den = fmal(den, r, B7);
+    den = fmal(den, r, B6);
+    den = fmal(den, r, B5);
+    den = fmal(den, r, B4);
+    den = fmal(den, r, B3);
+    den = fmal(den, r, B2);
+    den = fmal(den, r, B1);
+    den = fmal(den, r, B0);
+
     return x * num / den;
   }
 
-  long double r = sqrtl(LN2 - logl(1.0L - abs_x));
+  r = sqrtl(LN2 - logl(1.0L - abs_x));
 
-  long double num, den;
   if (r <= 5.0L) {
     r = r - 1.6L;
-    num = (((((((C7 * r + C6) * r + C5) * r + C4) * r + C3) * r + C2) * r + C1) * r + C0);
-    den = (((((((D7 * r + D6) * r + D5) * r + D4) * r + D3) * r + D2) * r + D1) * r + D0);
+
+    num = fmal(num, r, C7);
+    num = fmal(num, r, C6);
+    num = fmal(num, r, C5);
+    num = fmal(num, r, C4);
+    num = fmal(num, r, C3);
+    num = fmal(num, r, C2);
+    num = fmal(num, r, C1);
+    num = fmal(num, r, C0);
+
+    den = fmal(den, r, D7);
+    den = fmal(den, r, D6);
+    den = fmal(den, r, D5);
+    den = fmal(den, r, D4);
+    den = fmal(den, r, D3);
+    den = fmal(den, r, D2);
+    den = fmal(den, r, D1);
+    den = fmal(den, r, D0);
   } else {
     r = r - 5.0L;
-    num = (((((((E7 * r + E6) * r + E5) * r + E4) * r + E3) * r + E2) * r + E1) * r + E0);
-    den = (((((((F7 * r + F6) * r + F5) * r + F4) * r + F3) * r + F2) * r + F1) * r + F0);
+
+    num = fmal(num, r, E7);
+    num = fmal(num, r, E6);
+    num = fmal(num, r, E5);
+    num = fmal(num, r, E4);
+    num = fmal(num, r, E3);
+    num = fmal(num, r, E2);
+    num = fmal(num, r, E1);
+    num = fmal(num, r, E0);
+
+    den = fmal(den, r, F7);
+    den = fmal(den, r, F6);
+    den = fmal(den, r, F5);
+    den = fmal(den, r, F4);
+    den = fmal(den, r, F3);
+    den = fmal(den, r, F2);
+    den = fmal(den, r, F1);
+    den = fmal(den, r, F0);
   }
 
   return copysignl(num / den, x);
